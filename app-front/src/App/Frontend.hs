@@ -17,10 +17,13 @@ frontend = do
     transformerWithTime
 
 transformerWithTime :: MonadFront t m => m ()
-transformerWithTime = mdo
+transformerWithTime = textTransformer id
+
+textTransformer :: MonadFront t m => (Text -> Text) -> m ()
+textTransformer f = mdo
   elClass "div" "row" $ do
     txtInD <- elClass "div" "column" textAreaIn
-    elClass "div" "column" $ textAreaOut $ tag (current txtInD) btnE
+    elClass "div" "column" $ textAreaOut $ fmap f $ tag (current txtInD) btnE
   btnE <- button "Обработать"
   pure ()
 
