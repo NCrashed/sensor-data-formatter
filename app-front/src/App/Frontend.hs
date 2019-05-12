@@ -2,6 +2,7 @@ module App.Frontend(
     frontend
   ) where
 
+import App.Formatter
 import App.Shared
 import Control.Monad.Fix
 import Data.Functor
@@ -17,7 +18,7 @@ frontend = do
     transformerWithTime
 
 transformerWithTime :: MonadFront t m => m ()
-transformerWithTime = textTransformer id
+transformerWithTime = textTransformer formatWithTime
 
 textTransformer :: MonadFront t m => (Text -> Text) -> m ()
 textTransformer f = mdo
